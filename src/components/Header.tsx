@@ -31,19 +31,7 @@ export function Header({ lang }: { lang: string }) {
   // Жесткие фоллбэки перевода, чтобы меню 100% было на нужном языке, даже если словарь пуст
   const menuItems = [
     { label: dict?.header?.home || (isUk ? 'Головна' : 'Главная'), href: `${linkPrefix}/` },
-    { 
-      label: dict?.header?.services || (isUk ? 'Послуги' : 'Услуги'), 
-      subItems: [
-        { label: dict?.footer?.links?.landing || 'Landing Page', href: `${linkPrefix}/services/landings` },
-        { label: dict?.footer?.links?.businessCard || (isUk ? 'Сайт-візитка' : 'Сайт-визитка'), href: `${linkPrefix}/services/business-cards` },
-        { label: dict?.footer?.links?.corporate || (isUk ? 'Корпоративний сайт' : 'Корпоративный сайт'), href: `${linkPrefix}/services/corporate` },
-        { label: dict?.footer?.links?.ecommerce || 'E-commerce', href: `${linkPrefix}/services/ecommerce` },
-        { label: isUk ? 'Магазин + TG Бот' : 'Магазин + TG Бот', href: `${linkPrefix}/services/sites-and-bots` },
-        { label: dict?.footer?.links?.tgBots || 'Telegram Bots', href: `${linkPrefix}/services/telegram-bots` },
-      ]
-    },
     { label: dict?.header?.about || (isUk ? 'Про мене' : 'Обо мне'), href: `${linkPrefix}/about` },
-    { label: dict?.header?.portfolio || (isUk ? 'Портфоліо' : 'Портфолио'), href: `${linkPrefix}/portfolio` },
     { label: dict?.header?.contact || (isUk ? 'Контакти' : 'Контакты'), href: `${linkPrefix}/contact` },
   ];
 
