@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   
   const settings = await getSiteSettings();
   const isUk = params.lang === 'uk';
-  const defaultTitle = isUk ? 'Dmitriy | Висококонверсійні сайти та боти' : 'Dmitriy | Высококонверсионные сайты и боты';
-  const defaultDesc = isUk ? 'Автоматизовані воронки, сайти та Telegram-боти, які працюють 24/7.' : 'Автоматизированные воронки, сайты и Telegram-боты, которые работают 24/7.';
+  const defaultTitle = 'Шаблон | Template';
+  const defaultDesc = 'Описание шаблона';
   
   const title = settings.site_title || defaultTitle;
   const description = settings.site_description || defaultDesc;

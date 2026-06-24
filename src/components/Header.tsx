@@ -28,11 +28,10 @@ export function Header({ lang }: { lang: string }) {
   const isUk = lang === 'uk';
   const linkPrefix = isUk ? '' : '/ru';
 
-  // Жесткие фоллбэки перевода, чтобы меню 100% было на нужном языке, даже если словарь пуст
   const menuItems = [
-    { label: dict?.header?.home || (isUk ? 'Головна' : 'Главная'), href: `${linkPrefix}/` },
-    { label: dict?.header?.about || (isUk ? 'Про мене' : 'Обо мне'), href: `${linkPrefix}/about` },
-    { label: dict?.header?.contact || (isUk ? 'Контакти' : 'Контакты'), href: `${linkPrefix}/contact` },
+    { label: dict?.nav?.item1 || 'Пункт 1', href: `${linkPrefix}/page-1` },
+    { label: dict?.nav?.item2 || 'Пункт 2', href: `${linkPrefix}/page-2` },
+    { label: dict?.nav?.item3 || 'Пункт 3', href: `${linkPrefix}/page-3` },
   ];
 
   const switchLangHref = lang === 'ru' ? pathname.replace(/^\/ru/, '') || '/' : `/ru${pathname === '/' ? '' : pathname}`;

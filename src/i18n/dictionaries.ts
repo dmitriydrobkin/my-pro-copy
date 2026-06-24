@@ -1,88 +1,40 @@
 export type Dictionary = {
-  header: {
-    home: string;
-    about: string;
-    contact: string;
-  };
-  footer: {
-    brandName: string;
-    description: string;
-    consultation: string;
-    quickLinksTitle: string;
-    contactsTitle: string;
-    privacyLabel: string;
+  nav: {
+    item1: string;
+    item2: string;
+    item3: string;
   };
   common: {
     loading: string;
     error: string;
-    success: string;
-  };
-  form: {
-    nameLabel: string;
-    namePlaceholder: string;
-    contactLabel: string;
-    contactPlaceholder: string;
-    btnSubmit: string;
-    privacyCheck: string;
+    retry: string;
   };
 };
 
 const uk: Dictionary = {
-  header: {
-    home: 'Головна',
-    about: 'Про нас',
-    contact: 'Контакти',
-  },
-  footer: {
-    brandName: 'Brand',
-    description: 'New Starter Project',
-    consultation: 'Отримати<br />консультацію',
-    quickLinksTitle: 'Швидкі посилання',
-    contactsTitle: 'Контакти',
-    privacyLabel: 'Політика конфіденційності',
+  nav: {
+    item1: "Пункт 1",
+    item2: "Пункт 2",
+    item3: "Пункт 3"
   },
   common: {
-    loading: 'Завантаження...',
-    error: 'Щось пішло не так',
-    success: 'Успішно',
-  },
-  form: {
-    nameLabel: 'Ваше ім\'я *',
-    namePlaceholder: 'Олександр',
-    contactLabel: 'Email або Telegram *',
-    contactPlaceholder: '@username або пошта',
-    btnSubmit: 'Відправити',
-    privacyCheck: 'Я погоджуюсь з політикою конфіденційності',
-  },
+    loading: "Завантаження...",
+    error: "Помилка",
+    retry: "Спробувати знову"
+  }
 };
 
 const ru: Dictionary = {
-  header: {
-    home: 'Главная',
-    about: 'О нас',
-    contact: 'Контакты',
-  },
-  footer: {
-    brandName: 'Brand',
-    description: 'New Starter Project',
-    consultation: 'Получить<br />консультацию',
-    quickLinksTitle: 'Быстрые ссылки',
-    contactsTitle: 'Контакты',
-    privacyLabel: 'Политика конфиденциальности',
+  nav: {
+    item1: "Пункт 1",
+    item2: "Пункт 2",
+    item3: "Пункт 3"
   },
   common: {
-    loading: 'Загрузка...',
-    error: 'Что-то пошло не так',
-    success: 'Успешно',
-  },
-  form: {
-    nameLabel: 'Ваше имя *',
-    namePlaceholder: 'Александр',
-    contactLabel: 'Email или Telegram *',
-    contactPlaceholder: '@username или почта',
-    btnSubmit: 'Отправить',
-    privacyCheck: 'Я согласен с политикой конфиденциальности',
-  },
+    loading: "Загрузка...",
+    error: "Ошибка",
+    retry: "Попробовать снова"
+  }
 };
 
 export function getDictionary(lang: string): Dictionary {
