@@ -29,9 +29,9 @@ export function Header({ lang }: { lang: string }) {
   const linkPrefix = isUk ? '' : '/ru';
 
   const menuItems = [
-    { label: dict?.nav?.item1 || 'Пункт 1', href: `${linkPrefix}/page-1` },
-    { label: dict?.nav?.item2 || 'Пункт 2', href: `${linkPrefix}/page-2` },
-    { label: dict?.nav?.item3 || 'Пункт 3', href: `${linkPrefix}/page-3` },
+    { label: dict?.nav?.home || 'Пункт 1', href: `${linkPrefix}/` },
+    { label: dict?.nav?.about || 'Пункт 2', href: `${linkPrefix}/about` },
+    { label: dict?.nav?.contact || 'Пункт 3', href: `${linkPrefix}/contact` },
   ];
 
   const switchLangHref = lang === 'ru' ? pathname.replace(/^\/ru/, '') || '/' : `/ru${pathname === '/' ? '' : pathname}`;

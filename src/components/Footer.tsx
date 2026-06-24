@@ -8,9 +8,10 @@ export function Footer({ settings, lang }: { settings?: any, lang: string }) {
   const linkPrefix = lang === 'ru' ? '/ru' : '';
   
   const quickLinks = [
-    { label: dict.nav.item1, href: `${linkPrefix}/page-1` },
-    { label: dict.nav.item2, href: `${linkPrefix}/page-2` },
-    { label: dict.nav.item3, href: `${linkPrefix}/page-3` },
+    { label: dict.nav.home, href: `${linkPrefix}/` },
+    { label: dict.nav.about, href: `${linkPrefix}/about` },
+    { label: dict.nav.contact, href: `${linkPrefix}/contact` },
+    { label: dict.nav.privacy, href: `${linkPrefix}/privacy` },
   ];
 
   return (
