@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Ультрасовременный премиальный дизайн.
+ * Светлый воздушный минимализм, эффект стекла, неоновые акценты.
+ */
+@layer base {
+  :root {
+    color-scheme: light only;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-ink antialiased selection:bg-coral/20 selection:text-coral;
+    background-image: radial-gradient(circle at 50% 0%, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
+  }
+}
+
+@layer components {
+  /** Эффект матового стекла (Glassmorphism) */
+  .glass-panel {
+    @apply bg-white/60 backdrop-blur-xl border border-white/40 shadow-glass;
+  }
+
+  /** Кнопка основного действия — высокая конверсия */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-coral px-8 py-3.5
+      font-sans text-sm font-semibold tracking-wide text-white
+      transition-all duration-500 hover:bg-coral-hover hover:shadow-neon-coral hover:-translate-y-0.5
+      focus:outline-none focus:ring-2 focus:ring-coral focus:ring-offset-2;
+  }
+
+  /** Кнопка вторичного действия */
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-full border border-ink/10 bg-white/50 backdrop-blur-md
+      px-8 py-3.5 font-sans text-sm font-semibold tracking-wide text-ink
+      transition-all duration-500 hover:border-coral/30 hover:text-coral hover:shadow-glass hover:-translate-y-0.5;
+  }
+
+  /** Заголовок секции (Display font) */
+  .section-title {
+    @apply font-display text-4xl font-bold tracking-tight text-ink md:text-5xl lg:text-6xl;
+  }
+
+  /** Подзаголовок секции */
+  .section-subtitle {
+    @apply mt-6 max-w-2xl font-sans text-lg font-medium leading-relaxed text-ink/60;
+  }
+}
+
+@layer utilities {
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+}
+
+body.hide-native-cursor,
+body.hide-native-cursor * {
+  cursor: none !important;
+}
