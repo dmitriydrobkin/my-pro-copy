@@ -1,7 +1,6 @@
 import { headers } from 'next/headers';
 import type { Metadata } from 'next';
 import { Header } from '@/components/Header';
-import { Preloader } from '@/components/Preloader';
 import { ConditionalFooter } from '@/components/ConditionalFooter';
 import { getSiteSettings } from '@/server/functions/settings';
 import { StructuredData } from '@/components/StructuredData';
@@ -63,7 +62,6 @@ export default async function LangLayout({
 
   return (
     <>
-      <Preloader />
       <Header lang={params.lang} />
       <main className="flex-grow">{children}</main>
       <ConditionalFooter settings={settings} lang={params.lang} />
