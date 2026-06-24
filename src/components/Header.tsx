@@ -45,7 +45,7 @@ export function Header({ lang }: { lang: string }) {
             className="pointer-events-auto bg-white/80 backdrop-blur-md shadow-glass rounded-full px-6 py-3 md:px-8 md:py-4 font-display font-bold text-ink tracking-tight flex items-center gap-2 transition-transform hover:scale-105"
           >
             <div className="w-2 h-2 rounded-full bg-cyan-500 shadow-neon-cyan"></div>
-            malyshev.dev.
+            Template.
           </Link>
 
           <div className="pointer-events-auto flex items-center gap-2">

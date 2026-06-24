@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: { lang: string } })
       title,
       description,
       type: 'website',
-      url: `https://malyshev.dev${isUk ? '' : '/ru'}${basePath}`,
+      url: `https://your-domain.com${isUk ? '' : '/ru'}${basePath}`,
       images: ['/hero-bg.png'],
     },
     twitter: {
@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     },
     alternates: {
       languages: {
-        uk: `https://malyshev.dev${basePath}`,
-        ru: `https://malyshev.dev/ru${basePath}`,
+        uk: `https://your-domain.com${basePath}`,
+        ru: `https://your-domain.com/ru${basePath}`,
       }
     }
   };

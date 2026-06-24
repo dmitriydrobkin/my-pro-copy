@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: 'https://malyshev.dev/sitemap.xml',
+    sitemap: 'https://your-domain.com/sitemap.xml',
   };
 }
