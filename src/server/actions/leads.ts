@@ -58,6 +58,32 @@ export async function captureLeadAction(formData: FormData | Record<string, any>
       data = formData;
     }
 
+    const turnstileToken = data.turnstileToken;
+    if (!turnstileToken) {
+      return { success: false, error: 'Отсутствует токен Turnstile' };
+    }
+
+    const { env } = getRequestContext();
+    const secretKey = (env as any).TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET_KEY;
+    if (!secretKey) {
+      console.warn('⚠️ Turnstile Secret Key is missing in env!');
+      // throw new Error('Turnstile Secret Key is missing'); // Раскомментируй в проде
+    } else {
+      const verifyFormData = new FormData();
+      verifyFormData.append('secret', secretKey);
+      verifyFormData.append('response', turnstileToken as string);
+
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        body: verifyFormData,
+      });
+      const outcome = await verifyRes.json() as any;
+      
+      if (!outcome.success) {
+        return { success: false, error: 'Spam protection verification failed' };
+      }
+    }
+
     // Basic Honeypot Check
     if (data.website) {
       return { success: false, error: 'Bot detected' };
@@ -70,7 +96,6 @@ export async function captureLeadAction(formData: FormData | Record<string, any>
       return { success: false, error: 'Ошибка валидации данных' };
     }
 
-    const { env } = getRequestContext();
     const db = drizzle(env.DB);
 
     const { name, contactMethod, contactInfo, estimatedBudget, answers } = parsed.data;

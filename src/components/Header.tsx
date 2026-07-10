@@ -28,7 +28,13 @@ export function Header({ lang }: { lang: string }) {
   const isUk = lang === 'uk';
   const linkPrefix = isUk ? '' : '/ru';
 
-  const menuItems = [
+  type MenuItem = {
+    label: string;
+    href?: string;
+    subItems?: { label: string; href: string }[];
+  };
+
+  const menuItems: MenuItem[] = [
     { label: dict?.nav?.home || 'Пункт 1', href: `${linkPrefix}/` },
     { label: dict?.nav?.about || 'Пункт 2', href: `${linkPrefix}/about` },
     { label: dict?.nav?.contact || 'Пункт 3', href: `${linkPrefix}/contact` },

@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { Manrope, Unbounded } from 'next/font/google';
-import { CustomCursor } from '@/components/CustomCursor';
-import { MobileHoverSync } from '@/components/MobileHoverSync';
 import { getSiteSettings } from '@/server/functions/settings';
 import './globals.css';
 
@@ -48,8 +46,6 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={`${unbounded.variable} ${manrope.variable}`}>
       <body className="font-sans text-ink bg-surface min-h-screen flex flex-col">
-        <MobileHoverSync />
-        <CustomCursor />
         {children}
       </body>
     </html>
