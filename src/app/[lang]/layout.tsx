@@ -25,29 +25,32 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   const title = settings.site_title || defaultTitle;
   const description = settings.site_description || defaultDesc;
   
-  return {
-    title,
-    description,
-    openGraph: {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com';
+
+    return {
       title,
       description,
-      type: 'website',
-      url: `https://your-domain.com${isUk ? '' : '/ru'}${basePath}`,
-      images: ['/hero-bg.png'],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/hero-bg.png'],
-    },
-    alternates: {
-      languages: {
-        uk: `https://your-domain.com${basePath}`,
-        ru: `https://your-domain.com/ru${basePath}`,
-      }
-    }
-  };
+      openGraph: {
+        title,
+        description,
+        type: 'website',
+        url: `${baseUrl}${isUk ? '' : '/ru'}${basePath}`,
+        images: ['/hero-bg.png'],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: ['/hero-bg.png'],
+      },
+      alternates: {
+        canonical: `${baseUrl}${isUk ? '' : '/ru'}${basePath}`,
+        languages: {
+          ru: `${baseUrl}/ru${basePath}`,
+          uk: `${baseUrl}${basePath}`,
+        },
+      },
+    };
 }
 
 
