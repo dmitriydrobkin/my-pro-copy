@@ -23,24 +23,34 @@ export const db = new Proxy({} as any, {
 
       // Если базы нет (во время сборки), возвращаем заглушку
       if (!d1Binding) {
-        const mockObj = {
-          select: () => mockObj,
-          from: () => mockObj,
-          where: () => mockObj,
-          orderBy: () => mockObj,
-          limit: () => mockObj,
-          offset: () => mockObj,
-          all: () => [],
-          get: () => null,
-          insert: () => mockObj,
-          values: () => mockObj,
-          returning: () => mockObj,
-          run: () => ({ success: true }),
-          update: () => mockObj,
-          set: () => mockObj,
-          delete: () => mockObj,
-        };
-        return mockObj[prop as keyof typeof mockObj] || (() => mockObj);
+        // Проверяем, находимся ли мы в среде сборки Node.js (npm run build)
+        const isBuildTime = typeof process !== 'undefined' && process.release?.name === 'node';
+        
+        if (isBuildTime) {
+          // Отдаем заглушку ТОЛЬКО при сборке сайта
+          const mockObj = {
+            select: () => mockObj,
+            from: () => mockObj,
+            where: () => mockObj,
+            orderBy: () => mockObj,
+            limit: () => mockObj,
+            offset: () => mockObj,
+            all: () => [],
+            get: () => null,
+            insert: () => mockObj,
+            values: () => mockObj,
+            returning: () => mockObj,
+            run: () => ({ success: true }),
+            update: () => mockObj,
+            set: () => mockObj,
+            delete: () => mockObj,
+          };
+          return mockObj[prop as keyof typeof mockObj] || (() => mockObj);
+        }
+        
+        // В реальном продакшене (Edge runtime) мы обязаны упасть с ошибкой, 
+        // чтобы разработчик сразу увидел проблему, а не терял лиды!
+        throw new Error('🔥 КРИТИЧЕСКАЯ ОШИБКА: База данных D1 не подключена! Проверьте Bindings в Cloudflare.');
       }
 
       _db = drizzle(d1Binding, { schema });

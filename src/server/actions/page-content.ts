@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { db } from '@/server/db';
 import { pageContent } from '@/server/db/schema';
 
@@ -27,6 +28,8 @@ export async function savePageContent(data: {
           updatedAt: new Date(),
         },
       });
+
+    revalidateTag('page-content');
 
     return { success: true };
   } catch (error) {
