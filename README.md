@@ -1,82 +1,88 @@
-<h1 align="center">Next.js + Cloudflare D1 SQL + Drizzle ORM + Drizzle Kit + Cloudflare Pages starter kit</h1>
+# 🚀 Cloudflare Pro Boilerplate (Next.js Edge)
 
-# Getting started
+Ультимативный шаблон для создания высококонверсионных B2B-сайтов, лендингов и портфолио с нулевыми расходами на сервер. Работает на 100% бессерверной архитектуре Cloudflare Pages (Edge Runtime).
 
-> [!CAUTION]
-> The [next-on-pages](https://www.npmjs.com/package/@cloudflare/next-on-pages) library has been deprecated. Please follow the instructions in the link to migrate to a new library.
+## ✨ Главные фичи архитектуры
 
-## Prerequisites
+- **Strict Edge Runtime:** Проект оптимизирован под работу в Edge (микросекундный отклик по всему миру).
+- **База данных D1 (SQLite):** Встроенная защита от падения сборки (Build-time Proxy). Локальные моки на этапе компиляции и жесткие проверки в продакшене.
+- **Хранилище медиа R2:** Нативная загрузка картинок без тяжелых SDK от AWS. Изображения грузятся напрямую в Edge.
+- **Встроенная CRM & Telegram:** Заявки с сайта падают в базу и моментально отправляются в Telegram (через Webhook).
+- **Spam Protection:** Настроенная интеграция невидимой капчи Cloudflare Turnstile.
+- **i18n (Мультиязычность):** Настроена через Middleware без редиректов (SEO-friendly). По умолчанию: `ru` и `uk`.
+- **Git-as-CMS + Admin Panel:** Закрытая админка (`/admin`) для управления лидами, настройками SEO, портфолио и медиа. Основной контент редактируется прямо в коде.
+- **AI-Ready:** Встроенные скиллы в папке `.agents/skills` для ИИ-помощников (Cursor, Windsurf), которые автоматизируют проектирование и написание кода.
 
-1. Node.js >=v20.11.0
-2. pnpm >=v9.15.1
+---
 
-## Initialise the database(s)
+## 🛠 Инструкция по развертыванию (Запуск за 10 минут)
 
-1. [Create a production D1 database.](https://developers.cloudflare.com/d1/get-started/#3-create-a-database)
-2. The starter kit focuses on 2 environments, **development on local machine** and **production on
-   remote machine**. So, create the following files:
+Этот шаблон спроектирован так, чтобы его можно было запустить **без использования локального терминала** (команд `wrangler`). 
 
-   1. `.env.development`: duplicate `.env.example`, and set the variables to development values.
-   2. `.env.production`: duplicate `.env.example`, and set the variables to production values.
-   3. `wrangler.toml.development`: duplicate `wrangler.toml.example`, and set the variables to
-      development values.
-   4. `wrangler.toml.production`: duplicate `wrangler.toml.example`, and set the variables to
-      production values.
+### Шаг 1. Клонирование и Инфраструктура
+1. Сделайте `Fork` или скопируйте этот репозиторий для нового проекта.
+2. В панели [Cloudflare Dashboard](https://dash.cloudflare.com/) перейдите в **Workers & Pages** и создайте новый проект, подключив ваш репозиторий.
+3. В Cloudflare перейдите в раздел **D1** и создайте новую базу данных (например, `client-db`).
+4. Перейдите в раздел **R2** и создайте новый бакет (например, `client-media`).
 
-3. Install the app's dependencies:
+### Шаг 2. Инициализация Базы Данных (Без терминала)
+1. В панели Cloudflare откройте вашу новую базу D1 -> вкладка **Console**.
+2. Откройте файл `schema_init.sql` из корня этого репозитория.
+3. Скопируйте весь SQL-код, вставьте в консоль Cloudflare и нажмите **Execute**. 
+*(Ваша база готова принять лиды и настройки).*
 
-```sh
-pnpm install
-```
+### Шаг 3. Настройка Переменных (Bindings & Env)
+Перейдите в настройки вашего проекта в Cloudflare Pages (`Settings` -> `Functions` / `Environment variables`) и пропишите следующие ключи:
 
-4. Generate db migration files (that documents schema changes in an SQL script).
+**Привязки баз (Bindings):**
+- `DB` ➔ Выберите вашу базу D1.
+- `R2_BUCKET` ➔ Выберите ваш бакет R2.
 
-```sh
-pnpm db:generate
-```
+**Секреты (Environment Variables):**
+- `ADMIN_PASSWORD` ➔ Придумайте пароль для входа в `/admin`.
+- `TELEGRAM_BOT_TOKEN` ➔ Токен вашего бота от @BotFather.
+- `TELEGRAM_CHAT_ID` ➔ ID группы/чата, куда бот будет присылать заявки.
+- `TELEGRAM_SECRET_TOKEN` ➔ Любое кодовое слово (для защиты вебхука от взлома).
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` ➔ Ключ сайта (от Cloudflare Turnstile).
+- `TURNSTILE_SECRET_KEY` ➔ Секретный ключ (от Cloudflare Turnstile).
+- `NEXT_PUBLIC_SITE_URL` ➔ Полный адрес сайта (например, `https://client.com`). Нужен для SEO и i18n.
 
-5. Run db migrations (that executes the SQL script to update the database to match the schema).
+### Шаг 4. Деплой и привязка Webhook
+Сделайте Push в ветку `main`, чтобы Cloudflare собрал сайт. 
+**ВАЖНО:** Чтобы Telegram-бот начал присылать заявки, нужно один раз зарегистрировать Webhook. Откройте в браузере эту ссылку, подставив свои данные:
+```text
+[https://api.telegram.org/bot](https://api.telegram.org/bot)<TELEGRAM_BOT_TOKEN>/setWebhook?url=<NEXT_PUBLIC_SITE_URL>/api/telegram/webhook&secret_token=<TELEGRAM_SECRET_TOKEN>
 
-- dev (local) db: `pnpm db:migrate:dev`
-- prod (remote) db: `pnpm db:migrate:prod`
+Если вы увидели "Webhook was set" — CRM полностью работает!
 
-6. View the database using a graphical user interface:
+🤖 Как работать с ИИ (AI-Driven Workflow)
+Шаблон содержит встроенные скиллы (Skills) для ИИ-редакторов. Не нужно писать длинные промпты, просто используйте эти две команды:
 
-- dev (local) db: `pnpm db:studio:dev`
-- prod (remote) db: `pnpm db:studio:prod`
+Планирование проекта: Откройте чат с ИИ и напишите:
 
-## Run the app
+"Запусти project-kickoff-wizard"
 
-- Run Next.js on dev. Ideal for development since it supports hot-reload/fast refresh.
+ИИ проведет интервью на русском языке, выяснит дизайн-систему, нужные таблицы в БД и сформирует документ SPEC.md.
 
-```sh
-pnpm dev
-```
+Разработка: Когда ТЗ готово, напишите:
 
-⚠️ **Warning**: `next start` will return an error due to how the application is designed to run on
-Cloudflare pages.
+"Начинаем разработку. Используй навык cloudflare-pro-architect."
 
-- Run Cloudflare Pages locally. Ideal to test how the app would work after being deployed.
+ИИ будет писать код, соблюдая все строгие правила Edge Runtime, не сломает SSR анимации, добавит Turnstile в формы и будет выдавать SQL-код для БД вместо команд терминала.
 
-```sh
-pnpm pages:dev
-```
+🔒 SEO и Индексация (Важно)
+По умолчанию (сразу после деплоя) сайт полностью закрыт от поисковиков (noindex, nofollow), чтобы сырой контент не попал в Google.
+Как только сайт готов к релизу:
 
-⚠️ **Warning #1**: Connecting to the prod remote db on the local code
-[is not supported](https://developers.cloudflare.com/d1/build-with-d1/local-development/).
+Зайдите по адресу твой-сайт.com/admin
 
-⚠️ **Warning #2**: All pages deployed to Cloudflare Pages run on edge runtime, whereas
-[ISR only works on Nodejs runtime](https://developers.cloudflare.com/pages/framework-guides/nextjs/ssr/supported-features/)
-(because how Vercel designed their functions); so, some functions like `revalidatePath` will throw
-an error when running the app with `pnpm pages:dev`. But, the functions work as expected after
-deploying.
+Перейдите в раздел Настройки.
 
-## Deploy
+Включите тумблер «SEO: Индексация» и сохраните.
 
-- Deploy code to pages:
+💻 Локальная разработка
+Для локального запуска (без базы D1, сработают заглушки прокси):
+npm install
+npm run dev
 
-```sh
-pnpm pages:deploy
-```
-
-test
+Внимание: картинки через R2 локально работать не будут, тестируйте медиа и лиды на превью-ссылках Cloudflare Pages.
